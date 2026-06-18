@@ -1029,7 +1029,7 @@ label code {
 }
 
 /* ─────────────────────────────────────────
-   RESPONSIVE — 980px
+   RESPONSIVE — 980px (tablette)
 ───────────────────────────────────────── */
 
 @media (max-width: 980px) {
@@ -1045,35 +1045,55 @@ label code {
   }
 
   .sidebar-brand {
-    padding: 16px;
+    padding: 14px 16px;
+    border-bottom: none;
+  }
+
+  h1 {
+    font-size: 1rem;
   }
 
   .nav-tabs {
     flex-direction: row;
-    padding: 8px;
+    padding: 0 8px 8px;
+    gap: 4px;
     overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .nav-tabs::-webkit-scrollbar {
+    display: none;
   }
 
   .nav-tab {
     white-space: nowrap;
-    text-align: center;
     flex-shrink: 0;
     min-width: auto;
-    padding: 0 12px;
-    font-size: 0.78rem;
+    min-height: 40px;
+    padding: 0 14px;
+    font-size: 0.8rem;
+    border-radius: var(--radius);
   }
 
   .nav-tab.is-active::before {
-    left: 8px;
-    right: 8px;
+    left: 0;
+    right: 0;
     top: auto;
-    bottom: 0;
-    width: auto;
+    bottom: -2px;
+    width: 100%;
     height: 2px;
     border-radius: 2px 2px 0 0;
   }
 
-  .insight-grid,
+  .workspace {
+    padding: 20px;
+  }
+
+  .insight-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
   .compact-layout,
   .quick-grid,
   .form-grid {
@@ -1082,52 +1102,161 @@ label code {
 
   .quick-field {
     grid-template-columns: 1fr;
+    gap: 8px;
   }
 
   .funnel-steps {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(6, minmax(110px, 1fr));
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
 }
 
 /* ─────────────────────────────────────────
-   RESPONSIVE — 640px
+   RESPONSIVE — 640px (mobile)
 ───────────────────────────────────────── */
 
 @media (max-width: 640px) {
+  /* Workspace */
   .workspace {
-    padding: 16px;
+    padding: 14px;
   }
 
-  .topbar,
-  .panel-header {
-    align-items: flex-start;
+  /* Topbar */
+  .topbar {
     flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    margin-bottom: 16px;
+    padding-bottom: 14px;
   }
 
-  .nav-tabs,
-  .insight-grid,
-  .compact-layout,
-  .quick-grid,
-  .form-grid,
-  .funnel-steps {
-    grid-template-columns: 1fr;
+  .topbar-actions {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 8px;
   }
 
-  .funnel-step + .funnel-step {
-    border-left: none;
-    border-top: 1.5px solid var(--line);
+  #seed-demo {
+    display: none;
   }
 
-  .topbar-actions,
-  .form-actions,
-  .settings-actions {
-    width: 100%;
-  }
-
+  /* Touch targets */
   .primary-button,
   .ghost-button,
   .danger-button,
   .file-button {
-    flex: 1 1 130px;
+    min-height: 44px;
+    padding: 0 16px;
+    font-size: 0.875rem;
+  }
+
+  input,
+  textarea {
+    min-height: 44px;
+    font-size: 16px; /* évite le zoom auto iOS */
+  }
+
+  .step-button {
+    min-height: 44px;
+  }
+
+  /* Panel headers */
+  .panel-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  /* Grids */
+  .insight-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .compact-layout,
+  .quick-grid,
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Quick fields */
+  .quick-field {
+    grid-template-columns: minmax(0, 1fr) 140px;
+    min-height: 56px;
+  }
+
+  /* Funnel — scroll horizontal, pas de collapse */
+  .funnel-steps {
+    grid-template-columns: repeat(6, minmax(100px, 1fr));
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 4px;
+  }
+
+  .funnel-step + .funnel-step {
+    border-left: 1.5px solid var(--line);
+    border-top: none;
+  }
+
+  /* Insight cards — chiffres un peu plus petits */
+  .insight-card strong {
+    font-size: 1.5rem;
+  }
+
+  /* Form actions */
+  .form-actions,
+  .settings-actions {
+    flex-direction: column;
+  }
+
+  .form-actions .primary-button,
+  .form-actions .ghost-button,
+  .settings-actions .ghost-button,
+  .settings-actions .danger-button,
+  .settings-actions .file-button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* History */
+  .history-entry-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  /* Bars */
+  .bar-row {
+    grid-template-columns: 56px 1fr 40px;
+    font-size: 0.75rem;
+  }
+}
+
+/* ─────────────────────────────────────────
+   RESPONSIVE — 380px (petits mobiles)
+───────────────────────────────────────── */
+
+@media (max-width: 380px) {
+  .insight-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .insight-card {
+    min-height: 80px;
+  }
+
+  .insight-card strong {
+    font-size: 1.375rem;
+  }
+
+  .quick-field {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .nav-tab {
+    padding: 0 10px;
+    font-size: 0.75rem;
   }
 }
