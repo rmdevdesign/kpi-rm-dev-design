@@ -1057,10 +1057,11 @@ label code {
     bottom: 0;
     left: 0;
     right: 0;
-    z-index: 100;
+    z-index: 200;
     background: var(--surface-strong);
     border-top: 1px solid #1e293b;
-    padding-bottom: env(safe-area-inset-bottom);
+    /* safe area iPhone notch/home indicator */
+    padding-bottom: env(safe-area-inset-bottom, 0px);
   }
 
   .bottom-nav-item {
@@ -1068,7 +1069,8 @@ label code {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 52px;
+    height: 52px;
+    min-height: 44px;
     border: none;
     border-radius: 0;
     padding: 0 4px;
@@ -1078,6 +1080,7 @@ label code {
     font-weight: 500;
     letter-spacing: .01em;
     transition: color var(--transition), background var(--transition);
+    -webkit-tap-highlight-color: transparent;
   }
 
   .bottom-nav-item::before {
@@ -1098,7 +1101,7 @@ label code {
 
   /* Workspace — espace pour la bottom nav */
   .workspace {
-    padding: 18px 16px calc(52px + env(safe-area-inset-bottom) + 16px);
+    padding: 18px 16px calc(52px + env(safe-area-inset-bottom, 0px) + 20px);
   }
 
   /* Topbar */
@@ -1155,7 +1158,7 @@ label code {
 
 @media (max-width: 480px) {
   .workspace {
-    padding: 14px 12px calc(52px + env(safe-area-inset-bottom) + 14px);
+    padding: 14px 12px calc(52px + env(safe-area-inset-bottom, 0px) + 14px);
   }
 
   /* Touch targets */
