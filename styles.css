@@ -1060,8 +1060,6 @@ label code {
     z-index: 200;
     background: var(--surface-strong);
     border-top: 1px solid #1e293b;
-    /* safe area iPhone notch/home indicator */
-    padding-bottom: env(safe-area-inset-bottom, 0px);
   }
 
   .bottom-nav-item {
@@ -1101,7 +1099,7 @@ label code {
 
   /* Workspace — espace pour la bottom nav */
   .workspace {
-    padding: 18px 16px calc(52px + env(safe-area-inset-bottom, 0px) + 20px);
+    padding: 18px 16px calc(52px + 20px);
   }
 
   /* Topbar */
@@ -1158,7 +1156,7 @@ label code {
 
 @media (max-width: 480px) {
   .workspace {
-    padding: 14px 12px calc(52px + env(safe-area-inset-bottom, 0px) + 14px);
+    padding: 14px 12px calc(52px + 14px);
   }
 
   /* Touch targets */
