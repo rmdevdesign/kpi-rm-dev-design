@@ -1029,143 +1029,86 @@ label code {
 }
 
 /* ─────────────────────────────────────────
-   RESPONSIVE — 980px (tablette)
+   BOTTOM NAV — masqué par défaut (desktop)
 ───────────────────────────────────────── */
 
-@media (max-width: 980px) {
+.bottom-nav {
+  display: none;
+}
+
+/* ─────────────────────────────────────────
+   RESPONSIVE — 768px (mobile)
+───────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  /* Sidebar cachée, remplacée par la bottom nav */
+  .sidebar {
+    display: none;
+  }
+
   .app-shell {
     grid-template-columns: 1fr;
   }
 
-  .sidebar {
-    position: static;
-    height: auto;
-    border-right: none;
-    border-bottom: 1px solid #1e293b;
-  }
-
-  .sidebar-brand {
-    padding: 14px 16px;
-    border-bottom: none;
-  }
-
-  h1 {
-    font-size: 1rem;
-  }
-
-  .nav-tabs {
-    flex-direction: row;
-    padding: 0 8px 8px;
-    gap: 4px;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-  }
-
-  .nav-tabs::-webkit-scrollbar {
-    display: none;
-  }
-
-  .nav-tab {
-    white-space: nowrap;
-    flex-shrink: 0;
-    min-width: auto;
-    min-height: 40px;
-    padding: 0 14px;
-    font-size: 0.8rem;
-    border-radius: var(--radius);
-  }
-
-  .nav-tab.is-active::before {
+  /* Bottom nav */
+  .bottom-nav {
+    display: flex;
+    position: fixed;
+    bottom: 0;
     left: 0;
     right: 0;
-    top: auto;
-    bottom: -2px;
-    width: 100%;
-    height: 2px;
-    border-radius: 2px 2px 0 0;
+    z-index: 100;
+    background: var(--surface-strong);
+    border-top: 1px solid #1e293b;
+    padding-bottom: env(safe-area-inset-bottom);
   }
 
+  .bottom-nav-item {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 52px;
+    border: none;
+    border-radius: 0;
+    padding: 0 4px;
+    background: transparent;
+    color: #475569;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: .01em;
+    transition: color var(--transition), background var(--transition);
+  }
+
+  .bottom-nav-item::before {
+    display: none; /* override du ::before sidebar */
+  }
+
+  .bottom-nav-item.is-active {
+    color: var(--accent);
+    background: rgba(14, 165, 233, .08);
+    font-weight: 700;
+    box-shadow: inset 0 2px 0 var(--accent);
+  }
+
+  .bottom-nav-item:hover:not(.is-active) {
+    color: #94a3b8;
+    background: rgba(255, 255, 255, .04);
+  }
+
+  /* Workspace — espace pour la bottom nav */
   .workspace {
-    padding: 20px;
-  }
-
-  .insight-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .compact-layout,
-  .quick-grid,
-  .form-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .quick-field {
-    grid-template-columns: 1fr;
-    gap: 8px;
-  }
-
-  .funnel-steps {
-    grid-template-columns: repeat(6, minmax(110px, 1fr));
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-}
-
-/* ─────────────────────────────────────────
-   RESPONSIVE — 640px (mobile)
-───────────────────────────────────────── */
-
-@media (max-width: 640px) {
-  /* Workspace */
-  .workspace {
-    padding: 14px;
+    padding: 18px 16px calc(52px + env(safe-area-inset-bottom) + 16px);
   }
 
   /* Topbar */
   .topbar {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 12px;
     margin-bottom: 16px;
     padding-bottom: 14px;
   }
 
-  .topbar-actions {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 8px;
-  }
-
   #seed-demo {
     display: none;
-  }
-
-  /* Touch targets */
-  .primary-button,
-  .ghost-button,
-  .danger-button,
-  .file-button {
-    min-height: 44px;
-    padding: 0 16px;
-    font-size: 0.875rem;
-  }
-
-  input,
-  textarea {
-    min-height: 44px;
-    font-size: 16px; /* évite le zoom auto iOS */
-  }
-
-  .step-button {
-    min-height: 44px;
-  }
-
-  /* Panel headers */
-  .panel-header {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 4px;
   }
 
   /* Grids */
@@ -1174,47 +1117,112 @@ label code {
     gap: 8px;
   }
 
-  .compact-layout,
-  .quick-grid,
-  .form-grid {
+  .compact-layout {
     grid-template-columns: 1fr;
   }
 
-  /* Quick fields */
-  .quick-field {
-    grid-template-columns: minmax(0, 1fr) 140px;
-    min-height: 56px;
+  .quick-grid {
+    grid-template-columns: 1fr 1fr;
   }
 
-  /* Funnel — scroll horizontal, pas de collapse */
+  .quick-field {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    min-height: auto;
+    padding: 10px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  /* Funnel — scroll horizontal */
   .funnel-steps {
     grid-template-columns: repeat(6, minmax(100px, 1fr));
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
-    padding-bottom: 4px;
   }
 
   .funnel-step + .funnel-step {
     border-left: 1.5px solid var(--line);
     border-top: none;
   }
+}
 
-  /* Insight cards — chiffres un peu plus petits */
+/* ─────────────────────────────────────────
+   RESPONSIVE — 480px (petits mobiles)
+───────────────────────────────────────── */
+
+@media (max-width: 480px) {
+  .workspace {
+    padding: 14px 12px calc(52px + env(safe-area-inset-bottom) + 14px);
+  }
+
+  /* Touch targets */
+  .primary-button,
+  .ghost-button,
+  .danger-button,
+  .file-button {
+    min-height: 44px;
+    font-size: 0.875rem;
+  }
+
+  input,
+  textarea {
+    min-height: 44px;
+    font-size: 16px;
+  }
+
+  .step-button {
+    min-height: 44px;
+  }
+
+  /* Topbar */
+  .topbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .topbar-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .sync-indicator {
+    display: none;
+  }
+
+  /* Grids */
+  .insight-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+
+  .quick-grid,
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
   .insight-card strong {
     font-size: 1.5rem;
   }
 
-  /* Form actions */
+  /* Panel headers */
+  .panel-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 3px;
+  }
+
+  /* Form/settings actions */
   .form-actions,
   .settings-actions {
     flex-direction: column;
   }
 
-  .form-actions .primary-button,
-  .form-actions .ghost-button,
-  .settings-actions .ghost-button,
-  .settings-actions .danger-button,
-  .settings-actions .file-button {
+  .form-actions > *,
+  .settings-actions > * {
     width: 100%;
     justify-content: center;
   }
@@ -1228,35 +1236,12 @@ label code {
 
   /* Bars */
   .bar-row {
-    grid-template-columns: 56px 1fr 40px;
+    grid-template-columns: 52px 1fr 38px;
     font-size: 0.75rem;
   }
-}
 
-/* ─────────────────────────────────────────
-   RESPONSIVE — 380px (petits mobiles)
-───────────────────────────────────────── */
-
-@media (max-width: 380px) {
-  .insight-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .insight-card {
-    min-height: 80px;
-  }
-
-  .insight-card strong {
-    font-size: 1.375rem;
-  }
-
-  .quick-field {
-    grid-template-columns: 1fr;
-    gap: 8px;
-  }
-
-  .nav-tab {
-    padding: 0 10px;
-    font-size: 0.75rem;
+  /* Bottom nav labels */
+  .bottom-nav-item {
+    font-size: 0.65rem;
   }
 }
