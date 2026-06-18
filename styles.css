@@ -413,16 +413,34 @@ h3 {
 
 .insight-details {
   display: grid;
-  gap: 2px;
+  gap: 3px;
   color: var(--muted);
-  font-size: 0.75rem;
-  line-height: 1.4;
+  font-size: 0.72rem;
+  line-height: 1.35;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 6px;
+  min-width: 0;
+}
+
+.detail-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1 1 0;
+  min-width: 0;
 }
 
 .insight-details strong {
   color: var(--text-secondary);
   font-size: inherit;
   font-weight: 600;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 /* ─────────────────────────────────────────
@@ -1205,7 +1223,7 @@ label code {
     grid-template-columns: 1fr;
   }
 
-  .insight-card strong {
+  .insight-card > div:first-child > strong {
     font-size: 1.5rem;
   }
 

@@ -27,7 +27,7 @@ const insightGroups = [
       const rev = sumMetric(entries, "revenue");
       const hours = sumMetric(entries, "deepWorkHours");
       if (hours === 0) return null;
-      return `Taux horaire : <strong>${formatValue(Math.round(rev / hours), "EUR")}/h</strong>`;
+      return `<span class="detail-label">Taux horaire</span><strong>${formatValue(Math.round(rev / hours), "EUR")}/h</strong>`;
     }
   },
   { label: "Production", ids: ["deepWorkHours", "adminHours", "portfolioUpdates", "projectsDelivered"], accent: "amber" },
@@ -248,7 +248,7 @@ function renderInsights() {
     const percent = Math.round((score / group.ids.length) * 100);
     const details = group.ids.map((metricId) => {
       const metric = metrics.find((item) => item.id === metricId);
-      return `<span>${metric.label}: <strong>${formatValue(getMetricValue(monthEntries, metric), metric.unit)}</strong></span>`;
+      return `<span class="detail-row"><span class="detail-label">${metric.label}</span><strong>${formatValue(getMetricValue(monthEntries, metric), metric.unit)}</strong></span>`;
     }).join("");
     const derivedDetail = group.derived ? group.derived(monthEntries) : null;
 
@@ -261,7 +261,7 @@ function renderInsights() {
         <div class="mini-progress" aria-hidden="true">
           <span style="width: ${percent}%"></span>
         </div>
-        <div class="insight-details">${details}${derivedDetail ? `<span>${derivedDetail}</span>` : ""}</div>
+        <div class="insight-details">${details}${derivedDetail ? `<span class="detail-row">${derivedDetail}</span>` : ""}</div>
       </article>
     `;
   }).join("");
