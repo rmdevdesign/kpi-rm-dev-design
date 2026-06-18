@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>KPI RM Dev Design</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="app-shell">
+      <aside class="sidebar">
+        <div class="sidebar-brand">
+          <span class="logo-mark" aria-hidden="true">RM</span>
+          <div>
+            <p class="eyebrow">RM Dev Design</p>
+            <h1>KPI local</h1>
+          </div>
+        </div>
+        <nav class="nav-tabs" aria-label="Navigation">
+          <button class="nav-tab is-active" data-view="dashboard">Dashboard</button>
+          <button class="nav-tab" data-view="entry">Saisie</button>
+          <button class="nav-tab" data-view="history">Historique</button>
+          <button class="nav-tab" data-view="goals">Objectifs</button>
+          <button class="nav-tab" data-view="settings">Données</button>
+        </nav>
+      </aside>
+
+      <section class="workspace">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow" id="current-period">Mois en cours</p>
+            <h2 id="view-title">Dashboard</h2>
+          </div>
+          <div class="topbar-actions">
+            <span id="sync-indicator" hidden></span>
+          <button class="ghost-button" id="seed-demo" type="button">Voir un exemple</button>
+            <button class="primary-button" data-view-shortcut="entry" type="button">Nouvelle saisie</button>
+          </div>
+        </header>
+
+        <section class="view is-visible" id="dashboard-view" aria-labelledby="view-title">
+          <p class="demo-banner" id="demo-state" hidden>Données d'exemple affichées temporairement. Tes données locales ne sont pas modifiées.</p>
+          <section class="panel today-panel">
+            <div class="panel-header">
+              <div>
+                <h3>Journée</h3>
+                <span id="today-status"></span>
+              </div>
+              <input id="quick-date" type="date" aria-label="Date à modifier">
+            </div>
+            <div class="quick-grid" id="quick-fields"></div>
+          </section>
+
+          <div class="insight-grid" id="insight-grid"></div>
+
+          <section class="panel funnel-panel" aria-label="Tunnel commercial">
+            <div class="panel-header">
+              <h3>Tunnel commercial</h3>
+              <span id="funnel-month"></span>
+            </div>
+            <div class="funnel-steps" id="funnel-steps"></div>
+          </section>
+
+          <div class="compact-layout">
+            <section class="panel compact-goals">
+              <div class="panel-header">
+                <h3>Objectifs clés</h3>
+                <span id="goal-count"></span>
+              </div>
+              <div class="goal-list" id="goal-list"></div>
+            </section>
+            <section class="panel">
+              <div class="panel-header">
+                <h3>7 derniers jours</h3>
+                <span id="week-total"></span>
+              </div>
+              <div class="bars" id="weekly-bars"></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="entry-view" aria-labelledby="view-title">
+          <form class="entry-form panel" id="entry-form">
+            <div class="form-row">
+              <label for="entry-date">Date</label>
+              <input id="entry-date" name="date" type="date" required>
+            </div>
+            <div class="form-grid" id="entry-fields"></div>
+            <div class="form-row">
+              <label for="entry-notes">Notes</label>
+              <textarea id="entry-notes" name="notes" rows="4" placeholder="Contexte, client, blocage, opportunité..."></textarea>
+            </div>
+            <div class="form-actions">
+              <button class="ghost-button" type="reset">Vider</button>
+              <button class="primary-button" type="submit">Enregistrer / mettre à jour</button>
+            </div>
+          </form>
+        </section>
+
+        <section class="view" id="history-view" aria-labelledby="view-title">
+          <section class="panel">
+            <div class="panel-header">
+              <h3>Entrées enregistrées</h3>
+              <span id="history-count"></span>
+            </div>
+            <div class="history-list" id="history-list"></div>
+          </section>
+        </section>
+
+        <section class="view" id="goals-view" aria-labelledby="view-title">
+          <form class="panel goals-form" id="goals-form">
+            <div class="panel-header">
+              <h3>Objectifs du mois</h3>
+              <span>Modifiables à tout moment</span>
+            </div>
+            <div class="form-grid" id="goal-fields"></div>
+            <div class="form-actions">
+              <button class="primary-button" type="submit">Enregistrer les objectifs</button>
+            </div>
+          </form>
+        </section>
+
+        <section class="view" id="settings-view" aria-labelledby="view-title">
+          <section class="panel sync-panel">
+            <div class="panel-header">
+              <h3>Sync GitHub Gist</h3>
+              <span id="sync-status-badge"></span>
+            </div>
+            <div id="sync-setup">
+              <div class="form-row">
+                <label for="sync-token">Token GitHub <span>Personal Access Token — scope : <code>gist</code> uniquement</span></label>
+                <input type="password" id="sync-token" placeholder="ghp_…" autocomplete="off" spellcheck="false">
+              </div>
+              <div class="form-row">
+                <label for="sync-gist-input">Gist ID existant <span>Laisse vide pour en créer un automatiquement au premier push</span></label>
+                <input type="text" id="sync-gist-input" placeholder="Optionnel — colle l'ID si tu en as déjà un">
+              </div>
+              <div class="settings-actions">
+                <button class="primary-button" id="sync-connect" type="button">Connecter</button>
+              </div>
+            </div>
+            <div id="sync-connected" hidden>
+              <p class="sync-gist-row">Gist ID : <code id="sync-gist-display">—</code></p>
+              <div class="settings-actions">
+                <button class="ghost-button" id="sync-pull-btn" type="button">↓ Forcer un pull</button>
+                <button class="ghost-button" id="sync-push-btn" type="button">↑ Forcer un push</button>
+                <button class="danger-button" id="sync-disconnect-btn" type="button">Déconnecter</button>
+              </div>
+            </div>
+            <p class="muted sync-hint">Pull auto à l'ouverture · Push auto à chaque saisie.</p>
+          </section>
+
+          <section class="panel">
+            <div class="panel-header">
+              <h3>Sauvegarde locale</h3>
+              <span id="storage-status"></span>
+            </div>
+            <div class="settings-actions">
+              <button class="ghost-button" id="export-data" type="button">Exporter JSON</button>
+              <label class="file-button">
+                Importer JSON
+                <input id="import-data" type="file" accept="application/json">
+              </label>
+              <button class="danger-button" id="clear-data" type="button">Tout effacer</button>
+            </div>
+            <p class="muted">
+              Les données sont stockées uniquement dans le navigateur avec une clé locale dédiée à cet outil.
+            </p>
+          </section>
+        </section>
+      </section>
+    </main>
+
+    <template id="metric-card-template">
+      <article class="metric-card">
+        <div class="metric-card-top">
+          <span class="metric-icon"></span>
+          <span class="metric-delta"></span>
+        </div>
+        <p class="metric-label"></p>
+        <strong class="metric-value"></strong>
+      </article>
+    </template>
+
+    <script src="app.js"></script>
+  </body>
+</html>
